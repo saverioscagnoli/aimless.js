@@ -9,7 +9,21 @@ const lettersLower = "abcdefghijklmnopqrstuvwxyz";
 const lettersUpper = lettersLower.toUpperCase();
 const suitsStrings = ["hearts", "diamonds", "spades", "clubs"];
 const suitsSymbols = ["♥", "♦", "♠", "♣"];
-const ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+const ranks = [
+    "Ace",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "Jack",
+    "Queen",
+    "King",
+];
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 const rouletteColors = ["black", "red"];
 const rouletteColorsInverted = ["red", "black"];
@@ -57,6 +71,24 @@ const aimless = {
             throw new Error("Invalid format. Please make sure to enter this format: #d# where the first # is the number of dice, and the second # is the number of sides of each die");
         }
         return rolls;
+    },
+    d4: () => {
+        return aimless.roll("1d4");
+    },
+    d6: () => {
+        return aimless.roll("1d6");
+    },
+    d8: () => {
+        return aimless.roll("1d8");
+    },
+    d10: () => {
+        return aimless.roll("1d10");
+    },
+    d12: () => {
+        return aimless.roll("1d12");
+    },
+    d20: () => {
+        return aimless.roll("1d20");
     },
     remove: (array, element, { returnArray = false } = {}) => {
         for (let i = 0; i < array.length; i++) {
@@ -132,7 +164,7 @@ const aimless = {
                 pool = undefined;
                 break;
         }
-        return picked = aimless.pick(pool);
+        return (picked = aimless.pick(pool));
     },
     deck: ({ shuffled = false, symbols = true } = {}) => {
         const deck = [];
@@ -178,7 +210,9 @@ const aimless = {
         const day = aimless.pick(data_1.days);
         const month = aimless.pick(data_1.months);
         const year = aimless.rng({ min: minYear, max: maxYear });
-        return american ? date = `${month} ${day} ${year}` : date = `${day} ${month} ${year}`;
+        return american
+            ? (date = `${month} ${day} ${year}`)
+            : (date = `${day} ${month} ${year}`);
     },
     age: ({ type = "all" } = {}) => {
         switch (type) {
@@ -208,10 +242,10 @@ const aimless = {
         const species = await api.getPokemonSpeciesById(id);
         const Pokemon = {
             name: pokemon.species.name,
-            sprite: pokemon.species.url,
+            sprite: pokemon.sprites.front_default,
             types: {
                 first: pokemon.types[0].type.name,
-                second: pokemon.types.length > 1 ? pokemon.types[1].type.name : undefined
+                second: pokemon.types.length > 1 ? pokemon.types[1].type.name : undefined,
             },
             stats: {
                 hp: pokemon.stats[0].base_stat,
@@ -219,11 +253,11 @@ const aimless = {
                 defense: pokemon.stats[2].base_stat,
                 specialAttack: pokemon.stats[3].base_stat,
                 specialDefense: pokemon.stats[4].base_stat,
-                speed: pokemon.stats[5].base_stat
+                speed: pokemon.stats[5].base_stat,
             },
             moves: [],
             captureRate: species.capture_rate,
-            level: level
+            level: level,
         };
         return Pokemon;
     },
@@ -250,6 +284,21 @@ const aimless = {
     dollar: ({ max = 500 } = {}) => {
         const dollar = aimless.rng({ min: 0, max: max, float: true });
         return "$" + Math.round((dollar + Number.EPSILON) * 100) / 100;
-    }
+    },
+    eightBall: ({ question = "Am I awesome?" }) => {
+        question;
+        return aimless.pick(data_1.responses8ball);
+    },
+    superhero: () => {
+        return aimless.pick(data_1.superheroes);
+    },
+    hehexd: () => {
+        while (true) {
+            console.log("hehexd");
+        }
+    },
+    emoji: () => {
+        return aimless.pick(data_1.emojis);
+    },
 };
 exports.default = aimless;
